@@ -3,7 +3,7 @@ server:
   max-http-header-size: 48000
 
 keycloak:
-  url : localhost:8085
+  url : localhost:8080
   realm: realm
   client-id: admin-client
   client-secret:
