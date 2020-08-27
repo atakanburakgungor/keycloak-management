@@ -70,7 +70,7 @@ public class KeycloakManagementService {
             UserResource userRes = userResource.get(userId);
             CredentialRepresentation credentialRep = new CredentialRepresentation();
             credentialRep.setType(CredentialRepresentation.PASSWORD);
-            credentialRep.setValue(user.getUsername());
+            credentialRep.setValue(user.getPassword());
             credentialRep.setTemporary(true);
 
             userRes.resetPassword(credentialRep);
