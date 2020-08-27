@@ -1,0 +1,18 @@
+server:
+  port: 2020
+  max-http-header-size: 48000
+
+keycloak:
+  url : localhost:8085
+  realm: realm
+  client-id: admin-client
+  client-secret:
+
+# =========== Logging ============ #
+
+logging:
+  level:
+    org:
+      springframework.web: ERROR
+    com:
+      pia.next: INFO
