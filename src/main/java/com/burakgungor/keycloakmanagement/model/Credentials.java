@@ -3,8 +3,7 @@ package com.burakgungor.keycloakmanagement.model;
 import lombok.Data;
 
 @Data
-public class ClientArgs {
-
+public class Credentials {
     private String clientId;
     private String clientSecret;
 }

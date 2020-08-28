@@ -1,6 +1,6 @@
 package com.burakgungor.keycloakmanagement.service;
 
-import com.burakgungor.keycloakmanagement.model.ClientArgs;
+import com.burakgungor.keycloakmanagement.model.Credentials;
 import com.burakgungor.keycloakmanagement.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +45,8 @@ public class KeycloakManagementService {
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS).clientId(clientId).clientSecret(clientSecret).build();
     }
 
-    public AccessTokenResponse getClientAccessToken(ClientArgs clientArgs) {
-        Keycloak keycloak = getKeycloak(clientArgs.getClientId(), clientArgs.getClientSecret());
+    public AccessTokenResponse getClientAccessToken(Credentials credentials) {
+        Keycloak keycloak = getKeycloak(credentials.getClientId(),credentials.getClientSecret());
         return keycloak.tokenManager().getAccessToken();
     }
 

@@ -1,6 +1,6 @@
 package com.burakgungor.keycloakmanagement.resource;
 
-import com.burakgungor.keycloakmanagement.model.ClientArgs;
+import com.burakgungor.keycloakmanagement.model.Credentials;
 import com.burakgungor.keycloakmanagement.model.User;
 import com.burakgungor.keycloakmanagement.service.KeycloakManagementService;
 import lombok.NonNull;
@@ -23,8 +23,8 @@ public class KeycloakManagementResource {
     private KeycloakManagementService keycloakManagementService;
 
     @PostMapping("/client-access-token")
-    public AccessTokenResponse getClientAccessToken(@RequestBody ClientArgs clientArgs) {
-        return keycloakManagementService.getClientAccessToken(clientArgs);
+    public AccessTokenResponse getClientAccessToken(@RequestBody Credentials credentials) {
+        return keycloakManagementService.getClientAccessToken(credentials);
     }
 
     @PostMapping("/create-user")
