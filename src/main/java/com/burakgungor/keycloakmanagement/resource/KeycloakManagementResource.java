@@ -32,6 +32,11 @@ public class KeycloakManagementResource {
         return keycloakManagementService.createUser(user);
     }
 
+    @DeleteMapping("/delete-user/{username}")
+    public Boolean deleteUser(@PathVariable("username") String username) {
+        return keycloakManagementService.deleteUser(username);
+    }
+
     @GetMapping("/user/{username}")
     public List<UserRepresentation> getUserRepresentationByUserName(@PathVariable("username") String username) {
         return keycloakManagementService.getUserRepresentationByUserName(username);
@@ -41,4 +46,5 @@ public class KeycloakManagementResource {
     public String addUserToGroup(@PathVariable("group") String group, @PathVariable("username") String username) {
         return keycloakManagementService.addUserToSubGroup(username,group);
     }
+
 }

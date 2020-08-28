@@ -66,11 +66,8 @@ public class KeycloakManagementService {
     public User createUser(User user) {
         UsersResource userResource = getUsersResource();
         UserRepresentation userRepresentation = new UserRepresentation();
-        List<UserRepresentation> userRepresentations = userResource.search(user.getUsername());
         try {
-            if (userRepresentations.size() > 0) {
-                throw new RuntimeException("User already created in keycloak.Contact with admin !");
-            }
+            getUserRepresentations(user.getUsername(), userResource);
             userRepresentation.setEnabled(true);
             userRepresentation.setUsername(user.getUsername());
             userRepresentation.setLastName(user.getLastName());
@@ -94,8 +91,23 @@ public class KeycloakManagementService {
         return null;
     }
 
+    public boolean deleteUser(String username) {
+        List<UserRepresentation> userRepresentations = getUserRepresentations(username, getUsersResource());
+        UserResource userRes = getUsersResource().get(userRepresentations.get(0).getId());
+        userRepresentations.get(0).setEnabled(false);
+
+        userRes.update(userRepresentations.get(0));
+        //keycloak.realm(realm).users().get(userRepresentations.get(0).getId()).remove();
+        return true;
+    }
+
     public List<UserRepresentation> getUserRepresentationByUserName(String username) {
         UsersResource userResource = getUsersResource();
+        List<UserRepresentation> userRepresentations = getUserRepresentations(username, userResource);
+        return userRepresentations;
+    }
+
+    private List<UserRepresentation> getUserRepresentations(String username, UsersResource userResource) {
         List<UserRepresentation> userRepresentations = userResource.search(username);
         if (CollectionUtils.isEmpty(userRepresentations)) {
             throw new RuntimeException("User not found with this username !");
@@ -137,5 +149,4 @@ public class KeycloakManagementService {
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
-
 }
