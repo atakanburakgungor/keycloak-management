@@ -36,4 +36,9 @@ public class KeycloakManagementResource {
     public List<UserRepresentation> getUserRepresentationByUserName(@PathVariable("username") String username) {
         return keycloakManagementService.getUserRepresentationByUserName(username);
     }
+
+    @PostMapping("/add-to-group/{username}/{group}")
+    public String addUserToGroup(@PathVariable("group") String group, @PathVariable("username") String username) {
+        return keycloakManagementService.addUserToSubGroup(username,group);
+    }
 }
