@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class KeycloakManagementService {
-    @Value("${keycloak.url}")
-    private String serverUrl;
+    @Value("${keycloak.auth-server-url}")
+    private String authserverUrl;
 
     @Value("${keycloak.realm}")
     private String realm;
@@ -46,7 +46,7 @@ public class KeycloakManagementService {
     }
 
     private Keycloak getKeycloak(String clientId, String clientSecret) {
-        return KeycloakBuilder.builder().serverUrl(serverUrl).realm(realm)
+        return KeycloakBuilder.builder().serverUrl(authserverUrl).realm(realm)
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS).clientId(clientId).clientSecret(clientSecret).build();
     }
 
@@ -81,7 +81,7 @@ public class KeycloakManagementService {
             CredentialRepresentation credentialRep = new CredentialRepresentation();
             credentialRep.setType(CredentialRepresentation.PASSWORD);
             credentialRep.setValue(user.getPassword());
-            credentialRep.setTemporary(true);
+            credentialRep.setTemporary(false);
 
             userRes.resetPassword(credentialRep);
             return user;
@@ -115,19 +115,17 @@ public class KeycloakManagementService {
         return userRepresentations;
     }
 
-    public String addUserToSubGroup(String username, String group) {
+    public void addUserToSubGroup(String username, String group) {
         List<UserRepresentation> userRepresentation = getUserRepresentationByUserName(username);
         String id = userRepresentation.get(0).getId();
         if (checkUserExistanceInGroup(id, group)) {
             throw new RuntimeException(
                     "Keycloak üzerinde bu grup bilgisine sahip kullanici bulundu. Lütfen sistem adminiyle iletişime geçiniz.");
         }
-        List<GroupRepresentation> subGroups = getGroupRepresentations(getRealmResource());
-        subGroups
+        getGroupRepresentations(getRealmResource())
                 .stream()
                 .filter(groupRepresentation -> groupRepresentation.getPath().equals("/SYSTEM/" + group))
                 .forEach(groupRepresentation -> getRealmResource().users().get(id).joinGroup(groupRepresentation.getId()));
-        return null;
 
     }
 
