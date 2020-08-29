@@ -1,9 +1,9 @@
 server:
-  port: 2020
+  port: 8088
   max-http-header-size: 48000
 
 keycloak:
-  url : http://127.0.0.1:9990/auth
+  auth-server-url : http://127.0.0.1:9990/auth/
   realm: realm
   client-id: admin-cli
   client-secret: c952ccf7-e7c2-4b24-89f4-b2b97b8a9c0d
